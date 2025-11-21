@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Walmart Near-Real-Time Data Warehouse</title>
-
 </head>
 <body>
 
