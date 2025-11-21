@@ -3,17 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Walmart Near-Real-Time Data Warehouse</title>
-<style>
-  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background-color: #fefefe; }
-  h1, h2, h3 { color: #2c3e50; }
-  pre { background-color: #f4f4f4; padding: 10px; overflow-x: auto; border-left: 4px solid #3498db; }
-  code { background-color: #f4f4f4; padding: 2px 4px; }
-  ul, ol { margin: 0 0 15px 20px; }
-  details { margin-bottom: 15px; }
-  summary { cursor: pointer; font-weight: bold; font-size: 1.1em; }
-  summary:hover { color: #3498db; }
-  hr { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
-</style>
+
 </head>
 <body>
 
