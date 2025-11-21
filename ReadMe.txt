@@ -26,7 +26,6 @@ This system enables Walmart to analyze shopping behavior in near-real-time, faci
   - Thread 2: HYBRIDJOIN processor with batch commits
 
 ## 📊 Star Schema Design
-
 ```
 ┌─────────────────┐
 │   dim_customer  │
@@ -103,28 +102,28 @@ This system enables Walmart to analyze shopping behavior in near-real-time, faci
 - Python 3.8+
 - MySQL 8.0+
 - Required Python packages:
-  ```
+```
   pandas
   mysql-connector-python
-  ```
+```
 
 ## 🔧 Installation
 
 1. **Clone the repository**
-   ```bash
+```bash
    git clone https://github.com/yourusername/walmart-data-warehouse.git
    cd walmart-data-warehouse
-   ```
+```
 
 2. **Install dependencies**
-   ```bash
+```bash
    pip install pandas mysql-connector-python
-   ```
+```
 
 3. **Set up the database**
-   ```bash
+```bash
    mysql -u root -p < schema.sql
-   ```
+```
 
 4. **Prepare data files**
    - `transactional_data.csv` - Stream data (Order_ID, Customer_ID, Product_ID, date, quantity)
@@ -134,7 +133,6 @@ This system enables Walmart to analyze shopping behavior in near-real-time, faci
 ## 🎬 Usage
 
 ### Running the ETL Pipeline
-
 ```bash
 python hybridjoin_etl.py
 ```
@@ -159,7 +157,6 @@ The system will prompt for:
 5. **View Refresh**: Updates quarterly sales aggregations
 
 ### Monitoring Output
-
 ```
 [Iteration 145] Loaded 2500/2500 tuples (w now = 0)
 [Iteration 145] Joined 487 tuples | Freed 487 slots | w=487 | Total joins=15234
@@ -245,17 +242,73 @@ This project demonstrates:
 - OLAP query optimization techniques
 - Near-real-time data warehouse architecture
 
+## 📁 Project Structure
+```
+walmart-data-warehouse/
+│
+├── hybridjoin_etl.py          # Main ETL implementation with HYBRIDJOIN
+├── schema.sql                  # Database schema and stored procedures
+├── transactional_data.csv      # Stream data (not included)
+├── customer_master_data.csv    # Customer dimension (not included)
+├── product_master_data.csv     # Product dimension (not included)
+├── queries/                    # OLAP query implementations
+│   ├── q1_revenue_weekday_weekend.sql
+│   ├── q2_demographics_analysis.sql
+│   └── ... (q3-q20)
+│
+└── README.md
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Issue**: `ModuleNotFoundError: No module named 'mysql.connector'`
+```bash
+pip install mysql-connector-python
+```
+
+**Issue**: `Access denied for user 'root'@'localhost'`
+- Verify MySQL credentials
+- Ensure MySQL server is running
+- Check user permissions: `GRANT ALL PRIVILEGES ON walmart_dw.* TO 'root'@'localhost';`
+
+**Issue**: Stream buffer overflow
+- Increase `STREAM_DELAY` value in configuration
+- Adjust `BATCH_COMMIT_SIZE` for faster commits
+
+## 📊 Performance Metrics
+
+Expected performance on standard hardware:
+- **Stream Processing**: ~500-1000 transactions/second
+- **Join Operations**: ~100-500 joins/second
+- **Memory Usage**: ~200-300 MB for hash table and buffers
+- **Database Size**: ~50 MB per 10,000 transactions
+
+## 🔐 Security Notes
+
+- Never commit database credentials to version control
+- Use environment variables for sensitive configuration
+- Implement proper user authentication in production
+- Regular backups of the data warehouse
+
 ## 📝 License
 
 This project is created for educational purposes as part of a Data Warehousing course assignment.
 
-## 🤝 Contributing
+#Contributing
 
 This is an academic project. For improvements or suggestions, please open an issue.
 
 ## 📧 Contact
 
 For questions or feedback about this implementation, please create an issue in the repository.
+
+## 🙏 Acknowledgments
+
+- Based on the HYBRIDJOIN algorithm for stream-relation joins
+- Implements star schema best practices from Kimball methodology
+- Uses MySQL for reliable OLAP operations
 
 ---
 
