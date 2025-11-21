@@ -1,32 +1,62 @@
-# Walmart Near-Real-Time Data Warehouse
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Walmart Near-Real-Time Data Warehouse</title>
+<style>
+  body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background-color: #fefefe; }
+  h1, h2, h3 { color: #2c3e50; }
+  pre { background-color: #f4f4f4; padding: 10px; overflow-x: auto; border-left: 4px solid #3498db; }
+  code { background-color: #f4f4f4; padding: 2px 4px; }
+  ul, ol { margin: 0 0 15px 20px; }
+  details { margin-bottom: 15px; }
+  summary { cursor: pointer; font-weight: bold; font-size: 1.1em; }
+  summary:hover { color: #3498db; }
+  hr { border: 0; border-top: 1px solid #ddd; margin: 20px 0; }
+</style>
+</head>
+<body>
 
-A comprehensive data warehouse implementation for Walmart that processes transactional data in near-real-time using the HYBRIDJOIN stream-relation join algorithm. This project demonstrates advanced ETL processing, star schema design, and complex OLAP analytics.
+<h1>Walmart Near-Real-Time Data Warehouse</h1>
 
-## 🎯 Project Overview
+<p>A comprehensive data warehouse implementation for Walmart that processes transactional data in near-real-time using the HYBRIDJOIN stream-relation join algorithm. This project demonstrates advanced ETL processing, star schema design, and complex OLAP analytics.</p>
 
-This system enables Walmart to analyze shopping behavior in near-real-time, facilitating dynamic promotions and personalized offers across millions of daily transactions. The implementation uses a custom HYBRIDJOIN algorithm to efficiently join streaming transactional data with master data records.
+<details open>
+  <summary>🎯 Project Overview</summary>
+  <p>This system enables Walmart to analyze shopping behavior in near-real-time, facilitating dynamic promotions and personalized offers across millions of daily transactions. The implementation uses a custom HYBRIDJOIN algorithm to efficiently join streaming transactional data with master data records.</p>
+</details>
 
-## 🏗️ Architecture
+<details>
+  <summary>🏗️ Architecture</summary>
+  <h3>Key Components</h3>
+  <ul>
+    <li><strong>HYBRIDJOIN Algorithm</strong>: Custom stream-based join processor with:
+      <ul>
+        <li>Hash table with 10,000 slots for stream tuples</li>
+        <li>FIFO queue for arrival order tracking</li>
+        <li>Disk buffer with 5,000 tuple partitions</li>
+        <li>Thread-safe stream buffer</li>
+      </ul>
+    </li>
+    <li><strong>Star Schema Data Warehouse</strong>: Optimized for OLAP queries with:
+      <ul>
+        <li>Fact Tables: <code>fact_sales</code>, <code>fact_product_association</code></li>
+        <li>Dimension Tables: <code>dim_customer</code>, <code>dim_product</code>, <code>dim_time</code></li>
+        <li>Materialized View: <code>view_store_quarterly_sales</code></li>
+      </ul>
+    </li>
+    <li><strong>Multi-threaded ETL Pipeline</strong>:
+      <ul>
+        <li>Thread 1: Continuous stream reader from CSV</li>
+        <li>Thread 2: HYBRIDJOIN processor with batch commits</li>
+      </ul>
+    </li>
+  </ul>
+</details>
 
-### Key Components
-
-- **HYBRIDJOIN Algorithm**: Custom stream-based join processor with:
-  - Hash table with 10,000 slots for stream tuples
-  - FIFO queue for arrival order tracking
-  - Disk buffer with 5,000 tuple partitions
-  - Thread-safe stream buffer
-
-- **Star Schema Data Warehouse**: Optimized for OLAP queries with:
-  - Fact Tables: `fact_sales`, `fact_product_association`
-  - Dimension Tables: `dim_customer`, `dim_product`, `dim_time`
-  - Materialized View: `view_store_quarterly_sales`
-
-- **Multi-threaded ETL Pipeline**:
-  - Thread 1: Continuous stream reader from CSV
-  - Thread 2: HYBRIDJOIN processor with batch commits
-
-## 📊 Star Schema Design
-```
+<details>
+  <summary>📊 Star Schema Design</summary>
+  <pre>
 ┌─────────────────┐
 │   dim_customer  │
 │─────────────────│
@@ -76,96 +106,92 @@ This system enables Walmart to analyze shopping behavior in near-real-time, faci
                │ Product_ID_2                │
                │ Purchase_Date               │
                └─────────────────────────────┘
-```
+  </pre>
+</details>
 
-## 🚀 Features
+<details>
+  <summary>🚀 Features</summary>
+  <h3>HYBRIDJOIN Algorithm Implementation</h3>
+  <ul>
+    <li>Stream Processing: Handles continuous transactional data streams</li>
+    <li>Memory Management: Fixed 10,000 slot hash table with efficient collision handling</li>
+    <li>Fair Processing: FIFO queue ensures oldest data processed first</li>
+    <li>Batch Optimization: Commits every 200 transactions for performance</li>
+    <li>Thread Safety: Lock-based synchronization between reader and processor</li>
+  </ul>
 
-### HYBRIDJOIN Algorithm Implementation
-- **Stream Processing**: Handles continuous transactional data streams
-- **Memory Management**: Fixed 10,000 slot hash table with efficient collision handling
-- **Fair Processing**: FIFO queue ensures oldest data processed first
-- **Batch Optimization**: Commits every 200 transactions for performance
-- **Thread Safety**: Lock-based synchronization between reader and processor
+  <h3>Advanced Analytics (20 OLAP Queries)</h3>
+  <ul>
+    <li>Revenue analysis by weekdays/weekends with monthly drill-down</li>
+    <li>Customer demographics by purchase patterns</li>
+    <li>Product category performance by occupation</li>
+    <li>Seasonal sales trends and growth rates</li>
+    <li>Store and supplier performance metrics</li>
+    <li>Product affinity analysis for bundling strategies</li>
+    <li>Outlier detection for demand spikes</li>
+    <li>Multi-dimensional aggregations with ROLLUP</li>
+  </ul>
+</details>
 
-### Advanced Analytics (20 OLAP Queries)
-- Revenue analysis by weekdays/weekends with monthly drill-down
-- Customer demographics by purchase patterns
-- Product category performance by occupation
-- Seasonal sales trends and growth rates
-- Store and supplier performance metrics
-- Product affinity analysis for bundling strategies
-- Outlier detection for demand spikes
-- Multi-dimensional aggregations with ROLLUP
+<details>
+  <summary>📋 Prerequisites & Installation</summary>
+  <ul>
+    <li>Python 3.8+</li>
+    <li>MySQL 8.0+</li>
+    <li>Python packages:
+      <pre>pandas
+mysql-connector-python</pre>
+    </li>
+  </ul>
 
-## 📋 Prerequisites
+  <h3>Installation Steps</h3>
+  <ol>
+    <li>Clone the repository:
+      <pre>git clone https://github.com/yourusername/walmart-data-warehouse.git
+cd walmart-data-warehouse</pre>
+    </li>
+    <li>Install dependencies:
+      <pre>pip install pandas mysql-connector-python</pre>
+    </li>
+    <li>Set up the database:
+      <pre>mysql -u root -p &lt; schema.sql</pre>
+    </li>
+    <li>Prepare data files:
+      <ul>
+        <li><code>transactional_data.csv</code> - Stream data</li>
+        <li><code>customer_master_data.csv</code> - Customer dimension</li>
+        <li><code>product_master_data.csv</code> - Product dimension</li>
+      </ul>
+    </li>
+  </ol>
+</details>
 
-- Python 3.8+
-- MySQL 8.0+
-- Required Python packages:
-```
-  pandas
-  mysql-connector-python
-```
+<details>
+  <summary>🎬 Usage & Process Flow</summary>
+  <h3>Run the ETL Pipeline</h3>
+  <pre>python hybridjoin_etl.py</pre>
+  <p>The system will prompt for MySQL host, username, and password.</p>
 
-## 🔧 Installation
+  <h3>Process Flow</h3>
+  <ol>
+    <li>Load master data into dimension tables</li>
+    <li>Read transactional data continuously</li>
+    <li>Execute HYBRIDJOIN: load hash table, probe partitions, insert into <code>fact_sales</code></li>
+    <li>Product association mining</li>
+    <li>View refresh for quarterly sales</li>
+  </ol>
 
-1. **Clone the repository**
-```bash
-   git clone https://github.com/yourusername/walmart-data-warehouse.git
-   cd walmart-data-warehouse
-```
-
-2. **Install dependencies**
-```bash
-   pip install pandas mysql-connector-python
-```
-
-3. **Set up the database**
-```bash
-   mysql -u root -p < schema.sql
-```
-
-4. **Prepare data files**
-   - `transactional_data.csv` - Stream data (Order_ID, Customer_ID, Product_ID, date, quantity)
-   - `customer_master_data.csv` - Customer dimension data
-   - `product_master_data.csv` - Product dimension data
-
-## 🎬 Usage
-
-### Running the ETL Pipeline
-```bash
-python hybridjoin_etl.py
-```
-
-The system will prompt for:
-- MySQL host (default: 127.0.0.1)
-- MySQL username (default: root)
-- MySQL password
-
-### Process Flow
-
-1. **Master Data Loading**: Populates dimension tables with customer and product data
-2. **Stream Processing**: Reads transactional data continuously
-3. **HYBRIDJOIN Execution**: 
-   - Loads stream tuples into hash table (up to w available slots)
-   - Retrieves oldest key from queue
-   - Loads corresponding disk partition (5,000 products)
-   - Probes hash table for matches
-   - Inserts joined records into fact_sales
-   - Removes matched tuples and frees slots
-4. **Product Association Mining**: Identifies frequently co-purchased products
-5. **View Refresh**: Updates quarterly sales aggregations
-
-### Monitoring Output
-```
+  <h3>Monitoring Output</h3>
+  <pre>
 [Iteration 145] Loaded 2500/2500 tuples (w now = 0)
 [Iteration 145] Joined 487 tuples | Freed 487 slots | w=487 | Total joins=15234
-```
+  </pre>
+</details>
 
-## 📈 Sample Analytics Queries
-
-### Top Revenue Products by Weekend/Weekday
-```sql
+<details>
+  <summary>📈 Sample Analytics Queries</summary>
+  <h3>Top Revenue Products by Weekend/Weekday</h3>
+  <pre>
 SELECT 
     dp.Product_ID,
     dt.Is_Weekend,
@@ -178,10 +204,10 @@ WHERE dt.Year = 2024
 GROUP BY dp.Product_ID, dt.Is_Weekend, dt.Month_Name
 ORDER BY Revenue DESC
 LIMIT 5;
-```
+  </pre>
 
-### Product Affinity Analysis
-```sql
+  <h3>Product Affinity Analysis</h3>
+  <pre>
 SELECT 
     fpa.Product_ID_1,
     fpa.Product_ID_2,
@@ -190,126 +216,59 @@ FROM fact_product_association fpa
 GROUP BY fpa.Product_ID_1, fpa.Product_ID_2
 ORDER BY Co_Purchase_Count DESC
 LIMIT 5;
-```
+  </pre>
 
-### Quarterly Store Performance
-```sql
+  <h3>Quarterly Store Performance</h3>
+  <pre>
 SELECT * FROM view_store_quarterly_sales
 WHERE Year = 2024
 ORDER BY Store_Name, Quarter_Number;
-```
+  </pre>
+</details>
 
-## 🔍 Key Implementation Details
-
-### Hash Function
-```python
+<details>
+  <summary>🔍 Implementation Details</summary>
+  <h3>Hash Function</h3>
+  <pre>
 def hash_function(key):
     return int(hashlib.md5(str(key).encode()).hexdigest(), 16) % hS
-```
+  </pre>
 
-### Time Dimension Auto-Population
-- Automatically generates time records from 2015-2025
-- Computes derived attributes: season, quarter, weekend flags
-- Supports drill-down from year → quarter → month → day
+  <h3>Time Dimension Auto-Population</h3>
+  <ul>
+    <li>Generates records from 2015-2025</li>
+    <li>Computes season, quarter, weekend flags</li>
+    <li>Supports drill-down: year → quarter → month → day</li>
+  </ul>
 
-### Performance Optimizations
-- Composite indexes on frequently joined columns
-- Batch commits (200 transactions per commit)
-- On-demand partition loading
-- Efficient node deletion from hash table and queue
+  <h3>Performance Optimizations</h3>
+  <ul>
+    <li>Composite indexes</li>
+    <li>Batch commits (200 transactions)</li>
+    <li>On-demand partition loading</li>
+    <li>Efficient node deletion</li>
+  </ul>
+</details>
 
-## 📊 Database Schema Highlights
+<details>
+  <summary>🎓 Academic Context & License</summary>
+  <ul>
+    <li>Demonstrates stream-relation join algorithms (HYBRIDJOIN)</li>
+    <li>Multi-dimensional star schema modeling</li>
+    <li>ETL pipeline with enrichment</li>
+    <li>OLAP query optimization</li>
+    <li>Near-real-time DW architecture</li>
+  </ul>
+  <p>License: Educational purposes for Data Warehousing course assignment.</p>
+</details>
 
-### Fact Tables
-- **fact_sales**: 8 indexes for fast OLAP queries
-- **fact_product_association**: Supports market basket analysis
+<details>
+  <summary>🤝 Contributing & Contact</summary>
+  <p>This is an academic project. Open an issue for improvements or questions.</p>
+</details>
 
-### Dimension Tables
-- **dim_customer**: 6 indexes for demographic slicing
-- **dim_product**: 7 indexes for product hierarchy analysis
-- **dim_time**: 7 indexes for temporal patterns
+<hr>
+<p><strong>Note</strong>: Designed for educational and demonstration purposes. For production, add error handling, monitoring, and scalability improvements.</p>
 
-### Stored Procedures
-- `populate_time_dimension(start_date, end_date)`: Time dimension loader
-- `refresh_store_quarterly_sales()`: Materialized view refresh
-
-## 🎓 Academic Context
-
-This project demonstrates:
-- Stream-relation join algorithms (HYBRIDJOIN)
-- Multi-dimensional data modeling (star schema)
-- ETL pipeline design with data enrichment
-- OLAP query optimization techniques
-- Near-real-time data warehouse architecture
-
-## 📁 Project Structure
-```
-walmart-data-warehouse/
-│
-├── hybridjoin_etl.py          # Main ETL implementation with HYBRIDJOIN
-├── schema.sql                  # Database schema and stored procedures
-├── transactional_data.csv      # Stream data (not included)
-├── customer_master_data.csv    # Customer dimension (not included)
-├── product_master_data.csv     # Product dimension (not included)
-├── queries/                    # OLAP query implementations
-│   ├── q1_revenue_weekday_weekend.sql
-│   ├── q2_demographics_analysis.sql
-│   └── ... (q3-q20)
-│
-└── README.md
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Issue**: `ModuleNotFoundError: No module named 'mysql.connector'`
-```bash
-pip install mysql-connector-python
-```
-
-**Issue**: `Access denied for user 'root'@'localhost'`
-- Verify MySQL credentials
-- Ensure MySQL server is running
-- Check user permissions: `GRANT ALL PRIVILEGES ON walmart_dw.* TO 'root'@'localhost';`
-
-**Issue**: Stream buffer overflow
-- Increase `STREAM_DELAY` value in configuration
-- Adjust `BATCH_COMMIT_SIZE` for faster commits
-
-## 📊 Performance Metrics
-
-Expected performance on standard hardware:
-- **Stream Processing**: ~500-1000 transactions/second
-- **Join Operations**: ~100-500 joins/second
-- **Memory Usage**: ~200-300 MB for hash table and buffers
-- **Database Size**: ~50 MB per 10,000 transactions
-
-## 🔐 Security Notes
-
-- Never commit database credentials to version control
-- Use environment variables for sensitive configuration
-- Implement proper user authentication in production
-- Regular backups of the data warehouse
-
-## 📝 License
-
-This project is created for educational purposes as part of a Data Warehousing course assignment.
-
-#Contributing
-
-This is an academic project. For improvements or suggestions, please open an issue.
-
-## 📧 Contact
-
-For questions or feedback about this implementation, please create an issue in the repository.
-
-## 🙏 Acknowledgments
-
-- Based on the HYBRIDJOIN algorithm for stream-relation joins
-- Implements star schema best practices from Kimball methodology
-- Uses MySQL for reliable OLAP operations
-
----
-
-**Note**: This system is designed for educational and demonstration purposes. For production use, consider additional error handling, monitoring, and scalability enhancements.
+</body>
+</html>
