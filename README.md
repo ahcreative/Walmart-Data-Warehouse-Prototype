@@ -126,6 +126,7 @@
   <ul>
     <li>Python 3.8+</li>
     <li>MySQL 8.0+</li>
+    <li>Power BI (Visualization & BI)</li>
     <li>Python packages:
       <pre>pandas
 mysql-connector-python</pre>
@@ -235,6 +236,18 @@ def hash_function(key):
     <li>Batch commits (200 transactions)</li>
     <li>On-demand partition loading</li>
     <li>Efficient node deletion</li>
+  </ul>
+</details>
+
+<details>
+  <summary>📊 Power BI Dashboard</summary>
+    <h3>The Power BI dashboard provides:</h3>
+
+  <ul>
+    <li>Executive sales overview</li>
+    <li>Customer demographic insights</li>
+    <li>Product & store performance</li>
+    <li>Seasonal and MoM growth analysis</li>
   </ul>
 </details>
 
